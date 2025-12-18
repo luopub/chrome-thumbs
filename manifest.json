@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Tab Thumbnails",
   "version": "1.0",
-  "description": "显示所有标签页的缩略图，点击可切换到对应标签页",
+  "description": "Display thumbnails of all tabs, click to switch to the corresponding tab",
   "permissions": [
     "tabs",
     "activeTab",

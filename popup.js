@@ -3,51 +3,51 @@ document.addEventListener('DOMContentLoaded', function() {
   const loading = document.getElementById('loading');
   const sortToggle = document.getElementById('sort-toggle');
   const searchInput = document.getElementById('search-input');
-  let allTabs = []; // 存储所有标签页数据
-  let currentFocusedIndex = -1; // 当前聚焦的缩略图索引
-  let focusInThumbnails = false; // 焦点是否在缩略图上
+  let allTabs = []; // Store all tab data
+  let currentFocusedIndex = -1; // Current focused thumbnail index
+  let focusInThumbnails = false; // Whether focus is on thumbnails
   
-  // 从存储中获取排序状态，默认为 false（不排序）
+  // Get sort state from storage, default is false (not sorted)
   chrome.storage.sync.get(['sortTabs'], function(result) {
     const isSorting = result.sortTabs !== undefined ? result.sortTabs : false;
     updateSortButton(isSorting);
     loadTabs(isSorting);
   });
   
-  // 排序切换按钮点击事件
+  // Sort toggle button click event
   sortToggle.addEventListener('click', function() {
     chrome.storage.sync.get(['sortTabs'], function(result) {
       const isSorting = result.sortTabs !== undefined ? result.sortTabs : false;
       const newSortingState = !isSorting;
       
-      // 保存新的排序状态
+      // Save new sort state
       chrome.storage.sync.set({ sortTabs: newSortingState });
       updateSortButton(newSortingState);
       loadTabs(newSortingState);
     });
   });
   
-  // 搜索框输入事件
+  // Search box input event
   searchInput.addEventListener('input', function() {
     filterTabs();
-    focusInThumbnails = false; // 输入时焦点回到搜索框
+    focusInThumbnails = false; // Focus returns to search box when typing
   });
   
-  // 键盘事件处理
+  // Keyboard event handling
   document.addEventListener('keydown', function(e) {
-    // 处理 Escape 键，从任何位置返回搜索框
+    // Handle Escape key, return to search box from anywhere
     if (e.key === 'Escape') {
       searchInput.focus();
       clearThumbnailFocus();
       focusInThumbnails = false;
     }
-    // 处理当焦点在搜索框上时的回车键
+    // Handle Enter key when focus is on search box
     else if (e.key === 'Enter' && document.activeElement === searchInput) {
       e.preventDefault();
       if (!focusInThumbnails) {
-        // 焦点在搜索框，选中第一个缩略图但不跳转
+        // Focus on search box, select first thumbnail but don't navigate
         selectFirstThumbnail();
-        // 将焦点转移到第一个缩略图
+        // Move focus to the first thumbnail
         const tabItems = document.querySelectorAll('.tab-item');
         if (tabItems.length > 0) {
           tabItems[0].focus();
@@ -56,60 +56,60 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // 过滤标签页
+  // Filter tabs
   function filterTabs() {
     const searchQuery = searchInput.value.toLowerCase().trim();
     
     if (searchQuery === '') {
-      // 如果搜索框为空，显示所有标签页
+      // If search box is empty, show all tabs
       renderTabs(allTabs);
       return;
     }
     
-    // 过滤标签页
+    // Filter tabs
     const filteredTabs = allTabs.filter(tab => {
       return tab.title.toLowerCase().includes(searchQuery) || 
              tab.url.toLowerCase().includes(searchQuery);
     });
     
     renderTabs(filteredTabs);
-    // 过滤后清除焦点
+    // Clear focus after filtering
     clearThumbnailFocus();
   }
   
-  // 更新排序按钮的显示状态
+  // Update sort button display state
   function updateSortButton(isSorting) {
     if (isSorting) {
-      sortToggle.textContent = '排序';
+      sortToggle.textContent = 'Sorted';
       sortToggle.classList.remove('inactive');
     } else {
-      sortToggle.textContent = '不排序';
+      sortToggle.textContent = 'Unsorted';
       sortToggle.classList.add('inactive');
     }
   }
   
-  // 加载标签页
+  // Load tabs
   function loadTabs(shouldSort) {
     tabsContainer.innerHTML = '';
     loading.style.display = 'block';
     tabsContainer.style.display = 'none';
     
-    // 获取所有标签页
+    // Get all tabs
     chrome.tabs.query({}, function(tabs) {
       loading.style.display = 'none';
       tabsContainer.style.display = 'grid';
       
       if (tabs.length === 0) {
-        tabsContainer.innerHTML = '<div class="loading">没有打开的标签页</div>';
+        tabsContainer.innerHTML = '<div class="loading">No open tabs</div>';
         return;
       }
       
-      // 如果需要排序，按 URL 排序
+      // If sorting is needed, sort by URL
       allTabs = shouldSort ? [...tabs].sort((a, b) => {
         return a.url.localeCompare(b.url);
       }) : tabs;
       
-      // 如果搜索框有内容，应用过滤
+      // If search box has content, apply filter
       const searchQuery = searchInput.value.toLowerCase().trim();
       if (searchQuery !== '') {
         const filteredTabs = allTabs.filter(tab => {
@@ -123,24 +123,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // 渲染标签页
+  // Render tabs
   function renderTabs(tabs) {
     tabsContainer.innerHTML = '';
     
     if (tabs.length === 0) {
-      tabsContainer.innerHTML = '<div class="loading">没有找到匹配的标签页</div>';
+      tabsContainer.innerHTML = '<div class="loading">No matching tabs found</div>';
       return;
     }
     
-    // 获取当前活动标签页ID
+    // Get current active tab ID
     chrome.tabs.query({active: true, currentWindow: true}, function(activeTabs) {
       const activeTabId = activeTabs.length > 0 ? activeTabs[0].id : -1;
       
-        // 为每个标签页创建缩略图元素
+        // Create thumbnail element for each tab
       tabs.forEach(tab => {
         const tabItem = document.createElement('div');
         tabItem.className = 'tab-item';
-        tabItem.tabIndex = -1; // 使元素可以接收焦点，但不在Tab序列中
+        tabItem.tabIndex = -1; // Make element focusable but not in tab order
         if (tab.id === activeTabId) {
           tabItem.classList.add('active');
         }
@@ -150,10 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const title = document.createElement('div');
         title.className = 'tab-title';
-        title.textContent = tab.title || '无标题';
-        title.title = tab.title || '无标题';
+        title.textContent = tab.title || 'No title';
+        title.title = tab.title || 'No title';
         
-        // 创建缩略图显示区域
+        // Create thumbnail display area
         const img = document.createElement('img');
         img.src = tab.favIconUrl || '';
         img.style.width = '32px';
@@ -175,22 +175,22 @@ document.addEventListener('DOMContentLoaded', function() {
         textDiv.style.textAlign = 'center';
         textDiv.style.padding = '5px';
         textDiv.style.boxSizing = 'border-box';
-        textDiv.textContent = tab.title || '无标题';
+        textDiv.textContent = tab.title || 'No title';
         
         thumbnail.appendChild(img);
         thumbnail.appendChild(textDiv);
         
-        // 创建关闭按钮
+        // Create close button
         const closeButton = document.createElement('div');
         closeButton.className = 'close-button';
         closeButton.innerHTML = '×';
-        closeButton.title = '关闭标签页';
+        closeButton.title = 'Close tab';
         
-        // 点击关闭按钮关闭标签页
+        // Click close button to close tab
         closeButton.addEventListener('click', function(e) {
-          e.stopPropagation(); // 阻止事件冒泡，防止触发标签页切换
+          e.stopPropagation(); // Prevent event bubbling, avoid triggering tab switch
           chrome.tabs.remove(tab.id, function() {
-            // 关闭后重新加载标签页列表
+            // Reload tab list after closing
             chrome.storage.sync.get(['sortTabs'], function(result) {
               const isSorting = result.sortTabs !== undefined ? result.sortTabs : false;
               loadTabs(isSorting);
@@ -202,14 +202,14 @@ document.addEventListener('DOMContentLoaded', function() {
         tabItem.appendChild(closeButton);
         tabItem.appendChild(title);
         
-        // 点击缩略图区域（不包括关闭按钮）切换到对应标签页
+        // Click thumbnail area (excluding close button) to switch to corresponding tab
         thumbnail.addEventListener('click', function() {
           chrome.tabs.update(tab.id, {active: true});
-          // 可以选择关闭弹窗
+          // Optionally close popup
           window.close();
         });
         
-        // 为缩略图添加键盘事件处理
+        // Add keyboard event handling for thumbnails
         tabItem.addEventListener('keydown', function(e) {
           if (e.key === 'Enter') {
             e.preventDefault();
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // 焦点控制函数
+  // Focus control functions
   function selectFirstThumbnail() {
     const tabItems = document.querySelectorAll('.tab-item');
     if (tabItems.length > 0) {
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tabItems.length > 0) {
       currentFocusedIndex = (currentFocusedIndex + 1) % tabItems.length;
       updateThumbnailFocus();
-      // 将焦点转移到当前缩略图
+      // Move focus to current thumbnail
       tabItems[currentFocusedIndex].focus();
     }
   }
@@ -268,20 +268,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tabItems.length > 0) {
       currentFocusedIndex = (currentFocusedIndex - 1 + tabItems.length) % tabItems.length;
       updateThumbnailFocus();
-      // 将焦点转移到当前缩略图
+      // Move focus to current thumbnail
       tabItems[currentFocusedIndex].focus();
     }
   }
   
   function updateThumbnailFocus() {
     const tabItems = document.querySelectorAll('.tab-item');
-    // 清除所有焦点样式
+    // Clear all focus styles
     tabItems.forEach(item => item.classList.remove('focused'));
     
-    // 为当前项目添加焦点样式
+    // Add focus style to current item
     if (currentFocusedIndex >= 0 && currentFocusedIndex < tabItems.length) {
       tabItems[currentFocusedIndex].classList.add('focused');
-      // 确保焦点项目在视图中可见
+      // Ensure focused item is visible in view
       tabItems[currentFocusedIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const tabItems = document.querySelectorAll('.tab-item');
       const targetTab = tabItems[currentFocusedIndex];
       if (targetTab) {
-        // 触发点击事件
+        // Trigger click event
         const thumbnail = targetTab.querySelector('.tab-thumbnail');
         if (thumbnail) {
           thumbnail.click();

@@ -1,38 +1,38 @@
-# Chrome 标签页缩略图扩展
+# Chrome Tab Thumbnails Extension
 
-这是一个简单的Chrome浏览器扩展，可以显示所有打开标签页的缩略图，并支持点击切换到对应标签页。
+This is a simple Chrome browser extension that displays thumbnails of all open tabs, and supports clicking to switch to the corresponding tab.
 
-## 功能
+## Features
 
-- 显示所有打开的浏览器标签页的缩略图
-- 网格布局，适应不同数量的标签页
-- 点击缩略图可切换到对应标签页
-- 高亮显示当前活动标签页
+- Display thumbnails of all open browser tabs
+- Grid layout that adapts to different numbers of tabs
+- Click thumbnail to switch to corresponding tab
+- Highlight current active tab
 
-## 安装方法
+## Installation
 
-1. 打开Chrome浏览器，进入扩展管理页面 (chrome://extensions/)
-2. 开启"开发者模式"
-3. 点击"加载已解压的扩展程序"
-4. 选择此文件夹 (chrome-thumbs)
-5. 如果需要图标，请先打开create-icons.html文件，下载所有尺寸的图标并保存到images文件夹中
+1. Open Chrome browser and go to extensions page (chrome://extensions/)
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select this folder (chrome-thumbs)
+5. If you need icons, first open create-icons.html file, download icons of all sizes and save them to the images folder
 
-## 使用说明
+## Usage
 
-1. 点击浏览器工具栏中的扩展图标
-2. 弹出窗口中将显示所有打开的标签页的缩略图
-3. 点击任意缩略图即可切换到对应的标签页
+1. Click the extension icon in the browser toolbar
+2. The popup window will display thumbnails of all open tabs
+3. Click any thumbnail to switch to the corresponding tab
 
-## 文件结构
+## File Structure
 
-- `manifest.json` - 扩展配置文件
-- `popup.html` - 弹出窗口的HTML结构
-- `popup.js` - 弹出窗口的JavaScript逻辑
-- `create-icons.html` - 图标生成工具
-- `images/` - 存放扩展图标文件的文件夹
+- `manifest.json` - Extension configuration file
+- `popup.html` - HTML structure of the popup window
+- `popup.js` - JavaScript logic of the popup window
+- `create-icons.html` - Icon generation tool
+- `images/` - Folder to store extension icon files
 
-## 注意事项
+## Notes
 
-- 为了获取标签页缩略图，扩展需要tabs权限
-- 缩略图使用captureVisibleTab API获取
-- 如果无法获取缩略图，将显示网站favicon
+- To get tab thumbnails, the extension needs tabs permission
+- Thumbnails are obtained using captureVisibleTab API
+- If thumbnails cannot be obtained, website favicon will be displayed

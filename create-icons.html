@@ -2,45 +2,45 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>生成扩展图标</title>
+  <title>Generate Extension Icons</title>
 </head>
 <body>
-  <h1>Chrome扩展图标生成器</h1>
-  <p>点击下面的按钮下载不同尺寸的图标，然后保存到images文件夹中：</p>
+  <h1>Chrome Extension Icon Generator</h1>
+  <p>Click the buttons below to download icons of different sizes, then save them to the images folder:</p>
   
   <canvas id="iconCanvas" width="128" height="128"></canvas>
   
   <div>
-    <button id="download16">下载 16x16</button>
-    <button id="download32">下载 32x32</button>
-    <button id="download48">下载 48x48</button>
-    <button id="download128">下载 128x128</button>
+    <button id="download16">Download 16x16</button>
+    <button id="download32">Download 32x32</button>
+    <button id="download48">Download 48x48</button>
+    <button id="download128">Download 128x128</button>
   </div>
   
   <script>
     const canvas = document.getElementById('iconCanvas');
     const ctx = canvas.getContext('2d');
     
-    // 绘制一个简单的图标
+    // Draw a simple icon
     function drawIcon(size) {
       canvas.width = size;
       canvas.height = size;
       
-      // 清空画布
+      // Clear canvas
       ctx.clearRect(0, 0, size, size);
       
-      // 绘制背景
+      // Draw background
       ctx.fillStyle = '#4285f4';
       ctx.fillRect(0, 0, size, size);
       
-      // 绘制白色矩形代表浏览器窗口
+      // Draw white rectangle to represent browser window
       ctx.fillStyle = 'white';
       const rectSize = size * 0.6;
       const rectX = (size - rectSize) / 2;
       const rectY = (size - rectSize) / 2;
       ctx.fillRect(rectX, rectY, rectSize, rectSize);
       
-      // 绘制小矩形代表标签页
+      // Draw small rectangle to represent tab
       ctx.fillStyle = '#4285f4';
       const tabWidth = size * 0.3;
       const tabHeight = size * 0.1;
@@ -48,7 +48,7 @@
       const tabY = rectY;
       ctx.fillRect(tabX, tabY, tabWidth, tabHeight);
       
-      // 绘制小圆点代表缩略图
+      // Draw small dots to represent thumbnails
       const dotSize = size * 0.08;
       const dotSpacing = size * 0.15;
       const startX = rectX + size * 0.15;
@@ -69,10 +69,10 @@
       }
     }
     
-    // 初始绘制
+    // Initial drawing
     drawIcon(128);
     
-    // 下载函数
+    // Download function
     function downloadIcon(size) {
       drawIcon(size);
       const link = document.createElement('a');
@@ -81,7 +81,7 @@
       link.click();
     }
     
-    // 绑定按钮事件
+    // Bind button events
     document.getElementById('download16').addEventListener('click', () => downloadIcon(16));
     document.getElementById('download32').addEventListener('click', () => downloadIcon(32));
     document.getElementById('download48').addEventListener('click', () => downloadIcon(48));
