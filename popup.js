@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const sortToggle = document.getElementById('sort-toggle');
   const searchInput = document.getElementById('search-input');
   let allTabs = []; // 存储所有标签页数据
+  let currentFocusedIndex = -1; // 当前聚焦的缩略图索引
+  let focusInThumbnails = false; // 焦点是否在缩略图上
   
   // 从存储中获取排序状态，默认为 false（不排序）
   chrome.storage.sync.get(['sortTabs'], function(result) {
@@ -28,6 +30,30 @@ document.addEventListener('DOMContentLoaded', function() {
   // 搜索框输入事件
   searchInput.addEventListener('input', function() {
     filterTabs();
+    focusInThumbnails = false; // 输入时焦点回到搜索框
+  });
+  
+  // 键盘事件处理
+  document.addEventListener('keydown', function(e) {
+    // 处理 Escape 键，从任何位置返回搜索框
+    if (e.key === 'Escape') {
+      searchInput.focus();
+      clearThumbnailFocus();
+      focusInThumbnails = false;
+    }
+    // 处理当焦点在搜索框上时的回车键
+    else if (e.key === 'Enter' && document.activeElement === searchInput) {
+      e.preventDefault();
+      if (!focusInThumbnails) {
+        // 焦点在搜索框，选中第一个缩略图但不跳转
+        selectFirstThumbnail();
+        // 将焦点转移到第一个缩略图
+        const tabItems = document.querySelectorAll('.tab-item');
+        if (tabItems.length > 0) {
+          tabItems[0].focus();
+        }
+      }
+    }
   });
   
   // 过滤标签页
@@ -47,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     renderTabs(filteredTabs);
+    // 过滤后清除焦点
+    clearThumbnailFocus();
   }
   
   // 更新排序按钮的显示状态
@@ -108,10 +136,11 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.query({active: true, currentWindow: true}, function(activeTabs) {
       const activeTabId = activeTabs.length > 0 ? activeTabs[0].id : -1;
       
-      // 为每个标签页创建缩略图元素
+        // 为每个标签页创建缩略图元素
       tabs.forEach(tab => {
         const tabItem = document.createElement('div');
         tabItem.className = 'tab-item';
+        tabItem.tabIndex = -1; // 使元素可以接收焦点，但不在Tab序列中
         if (tab.id === activeTabId) {
           tabItem.classList.add('active');
         }
@@ -180,8 +209,101 @@ document.addEventListener('DOMContentLoaded', function() {
           window.close();
         });
         
+        // 为缩略图添加键盘事件处理
+        tabItem.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            chrome.tabs.update(tab.id, {active: true});
+            window.close();
+          } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            focusNextThumbnail();
+          } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            focusPreviousThumbnail();
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            searchInput.focus();
+            clearThumbnailFocus();
+            focusInThumbnails = false;
+          }
+        });
+        
         tabsContainer.appendChild(tabItem);
       });
     });
+  }
+  
+  // 焦点控制函数
+  function selectFirstThumbnail() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    if (tabItems.length > 0) {
+      currentFocusedIndex = 0;
+      focusInThumbnails = true;
+      updateThumbnailFocus();
+    }
+  }
+  
+  function focusFirstThumbnail() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    if (tabItems.length > 0) {
+      currentFocusedIndex = 0;
+      focusInThumbnails = true;
+      updateThumbnailFocus();
+    }
+  }
+  
+  function focusNextThumbnail() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    if (tabItems.length > 0) {
+      currentFocusedIndex = (currentFocusedIndex + 1) % tabItems.length;
+      updateThumbnailFocus();
+      // 将焦点转移到当前缩略图
+      tabItems[currentFocusedIndex].focus();
+    }
+  }
+  
+  function focusPreviousThumbnail() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    if (tabItems.length > 0) {
+      currentFocusedIndex = (currentFocusedIndex - 1 + tabItems.length) % tabItems.length;
+      updateThumbnailFocus();
+      // 将焦点转移到当前缩略图
+      tabItems[currentFocusedIndex].focus();
+    }
+  }
+  
+  function updateThumbnailFocus() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    // 清除所有焦点样式
+    tabItems.forEach(item => item.classList.remove('focused'));
+    
+    // 为当前项目添加焦点样式
+    if (currentFocusedIndex >= 0 && currentFocusedIndex < tabItems.length) {
+      tabItems[currentFocusedIndex].classList.add('focused');
+      // 确保焦点项目在视图中可见
+      tabItems[currentFocusedIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+  
+  function clearThumbnailFocus() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    tabItems.forEach(item => item.classList.remove('focused'));
+    currentFocusedIndex = -1;
+    focusInThumbnails = false;
+  }
+  
+  function activateCurrentThumbnail() {
+    if (currentFocusedIndex >= 0) {
+      const tabItems = document.querySelectorAll('.tab-item');
+      const targetTab = tabItems[currentFocusedIndex];
+      if (targetTab) {
+        // 触发点击事件
+        const thumbnail = targetTab.querySelector('.tab-thumbnail');
+        if (thumbnail) {
+          thumbnail.click();
+        }
+      }
+    }
   }
 });
