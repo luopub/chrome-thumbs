@@ -125,12 +125,31 @@ document.addEventListener('DOMContentLoaded', function() {
         title.title = tab.title || '无标题';
         
         // 创建缩略图显示区域
-        thumbnail.innerHTML = `
-          <img src="${tab.favIconUrl || ''}" style="width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none';">
-          <div style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; color:#666; font-size:10px; text-align:center; padding:5px; box-sizing:border-box;">
-            ${tab.title || '无标题'}
-          </div>
-        `;
+        const img = document.createElement('img');
+        img.src = tab.favIconUrl || '';
+        img.style.width = '32px';
+        img.style.height = '32px';
+        img.style.objectFit = 'contain';
+        
+        img.onerror = function() {
+          this.style.display = 'none';
+        };
+        
+        const textDiv = document.createElement('div');
+        textDiv.style.display = 'flex';
+        textDiv.style.width = '100%';
+        textDiv.style.height = '100%';
+        textDiv.style.alignItems = 'center';
+        textDiv.style.justifyContent = 'center';
+        textDiv.style.color = '#666';
+        textDiv.style.fontSize = '10px';
+        textDiv.style.textAlign = 'center';
+        textDiv.style.padding = '5px';
+        textDiv.style.boxSizing = 'border-box';
+        textDiv.textContent = tab.title || '无标题';
+        
+        thumbnail.appendChild(img);
+        thumbnail.appendChild(textDiv);
         
         tabItem.appendChild(thumbnail);
         tabItem.appendChild(title);
