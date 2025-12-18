@@ -15,6 +15,19 @@ A powerful, feature-rich Chrome browser extension that displays thumbnails of al
 - **Responsive Design**: Adapts to different numbers of open tabs
 - **Accessibility Features**: WCAG compliant keyboard navigation for all features
 
+## Statistics
+
+### GitHub Stars
+
+![GitHub stars](https://img.shields.io/github/stars/luopub/chrome-thumbs?style=social)
+![GitHub forks](https://img.shields.io/github/forks/luopub/chrome-thumbs?style=social)
+![GitHub issues](https://img.shields.io/github/issues/luopub/chrome-thumbs)
+![GitHub license](https://img.shields.io/github/license/luopub/chrome-thumbs)
+
+### Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=luopub/chrome-thumbs&type=Date)](https://star-history.com/#luopub/chrome-thumbs&Date)
+
 ## Keywords
 chrome-extension, tab-management, browser-extension, tab-thumbnails, productivity, chrome-tabs, tab-switcher, browser-tools
 
