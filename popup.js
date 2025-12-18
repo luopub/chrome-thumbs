@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // 设置本地化文本
+  // Set localization text
   document.getElementById('title').textContent = chrome.i18n.getMessage('extensionName');
   document.getElementById('search-input').placeholder = chrome.i18n.getMessage('searchPlaceholder');
   document.getElementById('loading').textContent = chrome.i18n.getMessage('loading');
