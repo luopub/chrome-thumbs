@@ -151,11 +151,30 @@ document.addEventListener('DOMContentLoaded', function() {
         thumbnail.appendChild(img);
         thumbnail.appendChild(textDiv);
         
+        // 创建关闭按钮
+        const closeButton = document.createElement('div');
+        closeButton.className = 'close-button';
+        closeButton.innerHTML = '×';
+        closeButton.title = '关闭标签页';
+        
+        // 点击关闭按钮关闭标签页
+        closeButton.addEventListener('click', function(e) {
+          e.stopPropagation(); // 阻止事件冒泡，防止触发标签页切换
+          chrome.tabs.remove(tab.id, function() {
+            // 关闭后重新加载标签页列表
+            chrome.storage.sync.get(['sortTabs'], function(result) {
+              const isSorting = result.sortTabs !== undefined ? result.sortTabs : false;
+              loadTabs(isSorting);
+            });
+          });
+        });
+        
         tabItem.appendChild(thumbnail);
+        tabItem.appendChild(closeButton);
         tabItem.appendChild(title);
         
-        // 点击切换到对应标签页
-        tabItem.addEventListener('click', function() {
+        // 点击缩略图区域（不包括关闭按钮）切换到对应标签页
+        thumbnail.addEventListener('click', function() {
           chrome.tabs.update(tab.id, {active: true});
           // 可以选择关闭弹窗
           window.close();
