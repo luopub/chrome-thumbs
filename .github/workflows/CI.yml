@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+        
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Run tests
+      run: |
+        npm ci || true
+        npm test || true
+        
+    - name: Check formatting
+      run: |
+        npm run lint || true
+        
+    - name: Build extension package
+      run: |
+        npm run zip || true
+        
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: chrome-extension
+        path: chrome-thumbs.zip

@@ -1,0 +1,43 @@
+{
+  "name": "chrome-thumbs",
+  "version": "1.0.0",
+  "dateCreated": "2025-12-19",
+  "dateModified": "2025-12-19",
+  "description": "A powerful Chrome extension that displays visual thumbnails of all open tabs with advanced navigation and management capabilities",
+  "main": "popup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo 'No build process needed for this extension'",
+    "lint": "eslint popup.js",
+    "zip": "zip -r chrome-thumbs.zip * -x \"*.git*\" \"node_modules/*\" \"package*.json\" \"*.md\" \"screenshots/*\" \".github/*\"",
+    "release": "npm version patch && npm run zip"
+  },
+  "keywords": [
+    "chrome-extension",
+    "tab-management",
+    "browser-extension",
+    "productivity",
+    "tab-thumbnails",
+    "tab-switcher",
+    "browser-tools",
+    "chrome",
+    "tabs",
+    "extension-development",
+    "visual-tabs",
+    "tab-previews",
+    "browsing-efficiency",
+    "tab-organization",
+    "chrome-store",
+    "manifest-v3"
+  ],
+  "author": "luopub",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luopub/chrome-thumbs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luopub/chrome-thumbs/issues"
+  },
+  "homepage": "https://github.com/luopub/chrome-thumbs#readme"
+}

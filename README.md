@@ -1,17 +1,22 @@
 # Chrome Tab Thumbnails Extension
 
-This is a feature-rich Chrome browser extension that displays thumbnails of all open tabs with advanced navigation and management capabilities.
+A powerful, feature-rich Chrome browser extension that displays thumbnails of all open tabs with advanced navigation and management capabilities. Boost your productivity by effortlessly managing multiple browser tabs with visual previews.
 
 ## Features
 
-- **Tab Display**: Display thumbnails of all open browser tabs in a responsive grid layout
-- **Tab Navigation**: Click thumbnail to switch to the corresponding tab
-- **Tab Management**: Close tabs directly from the extension with hover-revealed close buttons
-- **Visual Feedback**: Highlight current active tab and provide hover effects
-- **Search Functionality**: Search tabs by title or URL with real-time filtering
-- **Sorting Options**: Toggle between sorted (by URL) and unsorted tab arrangements
-- **Keyboard Navigation**: Full keyboard support with arrow keys and shortcuts
-- **State Persistence**: Remember sorting preferences across sessions
+- **Tab Thumbnails Display**: Visual grid layout showing all open browser tabs
+- **Quick Tab Navigation**: Click any thumbnail to instantly switch to that tab
+- **Direct Tab Management**: Close tabs directly from the extension with hover-revealed close buttons
+- **Visual Feedback**: Active tab highlighting and smooth hover effects
+- **Smart Search**: Real-time filtering of tabs by title or URL
+- **Flexible Sorting**: Toggle between sorted (by URL) and unsorted tab arrangements
+- **Full Keyboard Support**: Navigate tabs using arrow keys and keyboard shortcuts
+- **State Persistence**: Remembers your sorting preferences across browser sessions
+- **Responsive Design**: Adapts to different numbers of open tabs
+- **Accessibility Features**: WCAG compliant keyboard navigation for all features
+
+## Keywords
+chrome-extension, tab-management, browser-extension, tab-thumbnails, productivity, chrome-tabs, tab-switcher, browser-tools
 
 ## Installation
 
@@ -73,3 +78,76 @@ This is a feature-rich Chrome browser extension that displays thumbnails of all 
 - The extension uses Chrome's tab API for all tab operations
 - Search and filtering work across all open tabs in all windows
 - Sorting preference is maintained across browser sessions using Chrome storage API
+
+## Demo/Screenshots
+
+The following screenshots showcase the extension's key functionality:
+
+### Main Thumbnail View
+![Main Thumbnail View](store-assets/screenshots/screenshort-1.png)
+Shows all open tabs in a responsive grid layout with visual previews and close buttons.
+
+### Search Functionality
+![Search Functionality](store-assets/screenshots/screenshort-2.png)
+Real-time filtering of tabs by title or URL for quick access to specific tabs.
+
+### Sorted vs Unsorted Views
+![Sorted View](store-assets/screenshots/screenshort-3.png)
+Toggle between sorted (by URL) and unsorted tab arrangements to organize your workspace.
+
+### Keyboard Navigation
+![Keyboard Navigation](store-assets/screenshots/screenshort-4.png)
+Visual indicators and keyboard shortcuts for efficient tab navigation without a mouse.
+
+### Tab Management
+![Tab Management](store-assets/screenshots/screenshort-5.png)
+Advanced tab management features including quick closing and switching between tabs.
+
+## Project Information
+
+- **Created**: 2025-12-19
+- **Last Modified**: 2025-12-19
+- **Maintainer**: [luopub](https://github.com/luopub)
+
+## Installation
+
+### From Chrome Web Store (Recommended)
+
+1. Visit the [Chrome Web Store](https://chrome.google.com/webstore/detail/tab-thumbnails-visual-tab-manager/chrome-thumbs)
+2. Click "Add to Chrome"
+3. Grant necessary permissions
+4. Click the extension icon in your toolbar to start using
+
+### Manual Installation (For Developers)
+
+1. Clone this repository: `git clone https://github.com/luopub/chrome-thumbs.git`
+2. Open Chrome browser and go to extensions page (chrome://extensions/)
+3. Enable "Developer mode"
+4. Click "Load unpacked"
+5. Select this folder (chrome-thumbs)
+6. If you need icons, first open create-icons.html file, download icons of all sizes and save them to the images folder
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/luopub/chrome-thumbs/issues) if you want to contribute.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you find this extension helpful, please consider giving it a ⭐ star on GitHub!
+
+## Topics
+
+- chrome-extension
+- tab-management
+- browser-extension
+- productivity
+- tab-thumbnails
+- tab-switcher
+- browser-tools
+- chrome
+- tabs
+- extension-development

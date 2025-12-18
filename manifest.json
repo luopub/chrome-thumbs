@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Tab Thumbnails",
+  "name": "Tab Thumbnails - Visual Tab Manager",
   "version": "1.0",
-  "description": "Display thumbnails of all tabs, click to switch to the corresponding tab",
+  "created": "2025-12-19",
+  "description": "A powerful Chrome extension that displays visual thumbnails of all open tabs. Switch between tabs quickly with visual previews, search, sort, and manage your browsing session efficiently.",
+  "keywords": ["chrome extension", "tab management", "browser productivity", "tab thumbnails", "visual tab switcher", "tab navigation"],
   "permissions": [
     "tabs",
     "activeTab",
@@ -22,5 +24,6 @@
     "32": "images/icon32.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
-  }
+  },
+  "homepage_url": "https://github.com/luopub/chrome-thumbs"
 }
