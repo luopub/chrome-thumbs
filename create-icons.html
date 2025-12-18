@@ -3,11 +3,60 @@
 <head>
   <meta charset="utf-8">
   <title>Generate Extension Icons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .icon-type-selector {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
+    .icon-type-selector label {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      margin: 20px 0;
+      display: block;
+    }
+    div {
+      margin-bottom: 20px;
+    }
+    button {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3367d6;
+    }
+  </style>
 </head>
 <body>
   <h1>Chrome Extension Icon Generator</h1>
   <p>Click the buttons below to download icons of different sizes, then save them to the images folder:</p>
   
+  <div class="icon-type-selector">
+    <label>
+      <input type="radio" name="iconType" value="standard" checked> Standard Icon
+    </label>
+    <label>
+      <input type="radio" name="iconType" value="store"> Store Icon (Enhanced)
+    </label>
+  </div>
+  
+  <h3>Extension Icons</h3>
   <canvas id="iconCanvas" width="128" height="128"></canvas>
   
   <div>
@@ -15,11 +64,21 @@
     <button id="download32">Download 32x32</button>
     <button id="download48">Download 48x48</button>
     <button id="download128">Download 128x128</button>
+    <button id="downloadStoreIcon" style="background-color: #4CAF50; color: white; font-weight: bold;">Download Store Icon (128x128)</button>
+  </div>
+  
+  <h3>Store Promotional Image</h3>
+  <canvas id="promoCanvas" width="440" height="280"></canvas>
+  
+  <div>
+    <button id="downloadPromo" style="background-color: #FF9800; color: white; font-weight: bold;">Download Promotional Image (440x280)</button>
   </div>
   
   <script>
     const canvas = document.getElementById('iconCanvas');
     const ctx = canvas.getContext('2d');
+    const promoCanvas = document.getElementById('promoCanvas');
+    const promoCtx = promoCanvas.getContext('2d');
     
     // Draw a simple icon
     function drawIcon(size) {
@@ -29,6 +88,18 @@
       // Clear canvas
       ctx.clearRect(0, 0, size, size);
       
+      // Check which icon type to draw
+      const iconType = document.querySelector('input[name="iconType"]:checked').value;
+      
+      if (iconType === 'store') {
+        drawStoreIcon(size);
+      } else {
+        drawStandardIcon(size);
+      }
+    }
+    
+    // Draw standard icon
+    function drawStandardIcon(size) {
       // Draw background
       ctx.fillStyle = '#4285f4';
       ctx.fillRect(0, 0, size, size);
@@ -69,16 +140,310 @@
       }
     }
     
+    // Draw enhanced store icon
+    function drawStoreIcon(size) {
+      // Draw gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#4285f4');
+      gradient.addColorStop(1, '#0f5cc6');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Add subtle shadow
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+      ctx.shadowBlur = size * 0.1;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = size * 0.05;
+      
+      // Draw rounded rectangle to represent browser window
+      ctx.fillStyle = 'white';
+      const rectSize = size * 0.65;
+      const rectX = (size - rectSize) / 2;
+      const rectY = (size - rectSize) / 2;
+      const radius = size * 0.08;
+      
+      // Draw rounded rectangle
+      ctx.beginPath();
+      ctx.moveTo(rectX + radius, rectY);
+      ctx.lineTo(rectX + rectSize - radius, rectY);
+      ctx.quadraticCurveTo(rectX + rectSize, rectY, rectX + rectSize, rectY + radius);
+      ctx.lineTo(rectX + rectSize, rectY + rectSize - radius);
+      ctx.quadraticCurveTo(rectX + rectSize, rectY + rectSize, rectX + rectSize - radius, rectY + rectSize);
+      ctx.lineTo(rectX + radius, rectY + rectSize);
+      ctx.quadraticCurveTo(rectX, rectY + rectSize, rectX, rectY + rectSize - radius);
+      ctx.lineTo(rectX, rectY + radius);
+      ctx.quadraticCurveTo(rectX, rectY, rectX + radius, rectY);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Reset shadow
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      
+      // Draw tabs
+      ctx.fillStyle = '#4285f4';
+      const tabWidth = size * 0.25;
+      const tabHeight = size * 0.08;
+      const tabX = rectX + size * 0.05;
+      const tabY = rectY;
+      
+      // First tab
+      ctx.beginPath();
+      ctx.moveTo(tabX, tabY + tabHeight);
+      ctx.lineTo(tabX + tabWidth * 0.7, tabY);
+      ctx.lineTo(tabX + tabWidth, tabY + tabHeight);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Second tab
+      ctx.fillStyle = '#0f5cc6';
+      ctx.beginPath();
+      ctx.moveTo(tabX + tabWidth * 0.6, tabY + tabHeight);
+      ctx.lineTo(tabX + tabWidth * 1.2, tabY);
+      ctx.lineTo(tabX + tabWidth * 1.5, tabY + tabHeight);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Draw thumbnails with more detail
+      const thumbWidth = size * 0.18;
+      const thumbHeight = size * 0.12;
+      const thumbSpacing = size * 0.05;
+      const startThumbX = rectX + size * 0.08;
+      const startThumbY = rectY + size * 0.22;
+      
+      // Create thumbnails with different colors
+      const colors = ['#34a853', '#fbbc04', '#ea4335', '#4285f4'];
+      
+      for (let i = 0; i < 2; i++) {
+        for (let j = 0; j < 2; j++) {
+          const x = startThumbX + j * (thumbWidth + thumbSpacing);
+          const y = startThumbY + i * (thumbHeight + thumbSpacing);
+          
+          // Draw thumbnail
+          ctx.fillStyle = colors[i * 2 + j];
+          ctx.fillRect(x, y, thumbWidth, thumbHeight);
+          
+          // Add small highlight to make it look more like a window
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+          ctx.fillRect(x, y, thumbWidth, thumbHeight * 0.3);
+        }
+      }
+      
+      // Add a subtle border
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.lineWidth = size * 0.01;
+      ctx.strokeRect(rectX + size * 0.01, rectY + size * 0.01, rectSize - size * 0.02, rectSize - size * 0.02);
+    }
+    
     // Initial drawing
     drawIcon(128);
+    drawPromoImage();
+    
+    // Draw promotional image
+    function drawPromoImage() {
+      // Clear canvas
+      promoCtx.clearRect(0, 0, promoCanvas.width, promoCanvas.height);
+      
+      // Draw gradient background
+      const gradient = promoCtx.createLinearGradient(0, 0, promoCanvas.width, promoCanvas.height);
+      gradient.addColorStop(0, '#4285f4');
+      gradient.addColorStop(0.7, '#0f5cc6');
+      gradient.addColorStop(1, '#0a3b80');
+      promoCtx.fillStyle = gradient;
+      promoCtx.fillRect(0, 0, promoCanvas.width, promoCanvas.height);
+      
+      // Add subtle pattern
+      promoCtx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      for (let i = 0; i < promoCanvas.width; i += 30) {
+        for (let j = 0; j < promoCanvas.height; j += 30) {
+          if ((i + j) % 60 === 0) {
+            promoCtx.beginPath();
+            promoCtx.arc(i, j, 15, 0, 2 * Math.PI);
+            promoCtx.fill();
+          }
+        }
+      }
+      
+      // Draw browser window mockup
+      const browserWidth = promoCanvas.width * 0.7;
+      const browserHeight = promoCanvas.height * 0.6;
+      const browserX = (promoCanvas.width - browserWidth) / 2;
+      const browserY = promoCanvas.height * 0.2;
+      
+      // Shadow
+      promoCtx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+      promoCtx.shadowBlur = 15;
+      promoCtx.shadowOffsetX = 0;
+      promoCtx.shadowOffsetY = 10;
+      
+      // Browser background
+      promoCtx.fillStyle = 'white';
+      promoCtx.fillRect(browserX, browserY, browserWidth, browserHeight);
+      
+      // Reset shadow
+      promoCtx.shadowColor = 'transparent';
+      promoCtx.shadowBlur = 0;
+      promoCtx.shadowOffsetX = 0;
+      promoCtx.shadowOffsetY = 0;
+      
+      // Browser title bar
+      promoCtx.fillStyle = '#f5f5f5';
+      promoCtx.fillRect(browserX, browserY, browserWidth, 30);
+      
+      // Browser controls
+      const controlColors = ['#ff5f56', '#ffbd2e', '#27ca3f'];
+      for (let i = 0; i < 3; i++) {
+        promoCtx.beginPath();
+        promoCtx.arc(browserX + 20 + i * 25, browserY + 15, 6, 0, 2 * Math.PI);
+        promoCtx.fillStyle = controlColors[i];
+        promoCtx.fill();
+      }
+      
+      // URL bar
+      promoCtx.fillStyle = '#f0f0f0';
+      promoCtx.fillRect(browserX + 80, browserY + 7, browserWidth - 100, 16);
+      
+      // Browser tabs
+      const tabWidth = 120;
+      const tabHeight = 25;
+      
+      // First tab
+      promoCtx.fillStyle = '#e8eaed';
+      promoCtx.beginPath();
+      promoCtx.moveTo(browserX, browserY + 30);
+      promoCtx.lineTo(browserX, browserY + 30 + tabHeight);
+      promoCtx.lineTo(browserX + tabWidth - 10, browserY + 30 + tabHeight);
+      promoCtx.lineTo(browserX + tabWidth, browserY + 30);
+      promoCtx.closePath();
+      promoCtx.fill();
+      
+      // Second tab
+      promoCtx.fillStyle = '#f5f5f5';
+      promoCtx.fillRect(browserX + tabWidth - 5, browserY + 30 + 5, tabWidth, tabHeight - 5);
+      
+      // Add tab text
+      promoCtx.fillStyle = '#5f6368';
+      promoCtx.font = '12px Arial';
+      promoCtx.fillText('New Tab', browserX + 30, browserY + 45);
+      promoCtx.fillText('Tab Preview', browserX + tabWidth + 20, browserY + 45);
+      
+      // Thumbnails grid inside browser
+      const thumbRows = 2;
+      const thumbCols = 3;
+      const thumbWidth = browserWidth * 0.25;
+      const thumbHeight = browserHeight * 0.35;
+      const thumbSpacing = browserWidth * 0.05;
+      const startThumbX = browserX + (browserWidth - (thumbCols * thumbWidth + (thumbCols - 1) * thumbSpacing)) / 2;
+      const startThumbY = browserY + 70;
+      
+      const colors = ['#34a853', '#fbbc04', '#ea4335', '#4285f4', '#9c27b0', '#00bcd4'];
+      
+      for (let row = 0; row < thumbRows; row++) {
+        for (let col = 0; col < thumbCols; col++) {
+          const x = startThumbX + col * (thumbWidth + thumbSpacing);
+          const y = startThumbY + row * (thumbHeight + thumbSpacing);
+          
+          // Thumbnail with shadow
+          promoCtx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+          promoCtx.shadowBlur = 5;
+          promoCtx.shadowOffsetX = 0;
+          promoCtx.shadowOffsetY = 2;
+          
+          // Thumbnail background
+          promoCtx.fillStyle = colors[row * thumbCols + col];
+          promoCtx.fillRect(x, y, thumbWidth, thumbHeight);
+          
+          // Reset shadow
+          promoCtx.shadowColor = 'transparent';
+          promoCtx.shadowBlur = 0;
+          promoCtx.shadowOffsetX = 0;
+          promoCtx.shadowOffsetY = 0;
+          
+          // Thumbnail highlight
+          promoCtx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+          promoCtx.fillRect(x, y, thumbWidth, thumbHeight * 0.3);
+          
+          // Thumbnail text
+          promoCtx.fillStyle = 'white';
+          promoCtx.font = `bold ${thumbHeight * 0.15}px Arial`;
+          promoCtx.textAlign = 'center';
+          promoCtx.fillText(`Preview ${row * thumbCols + col + 1}`, x + thumbWidth / 2, y + thumbHeight / 2);
+          promoCtx.textAlign = 'start';
+        }
+      }
+      
+      // Add text background for better readability
+      const textBgHeight = 70;
+      const textBgY = 30;
+      promoCtx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+      promoCtx.fillRect(0, textBgY, promoCanvas.width, textBgHeight);
+      
+      // Add title text
+      promoCtx.fillStyle = '#ffffff';
+      promoCtx.font = 'bold 32px Arial';
+      promoCtx.textAlign = 'center';
+      promoCtx.fillText('Chrome Tab Preview', promoCanvas.width / 2, textBgY + 35);
+      
+      promoCtx.font = '18px Arial';
+      promoCtx.fillText('Organize and preview your browser tabs efficiently', promoCanvas.width / 2, textBgY + 60);
+      
+      // Add feature points with background
+      const featureBgHeight = 80;
+      const featureBgY = promoCanvas.height - featureBgHeight - 10;
+      promoCtx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+      promoCtx.fillRect(0, featureBgY, promoCanvas.width, featureBgHeight);
+      
+      // Add feature bullet points
+      promoCtx.fillStyle = '#ffffff';
+      promoCtx.font = '16px Arial';
+      const bulletPoints = [
+        '✓ Visual tab thumbnails',
+        '✓ Quick tab navigation',
+        '✓ Productivity booster'
+      ];
+      
+      for (let i = 0; i < bulletPoints.length; i++) {
+        promoCtx.fillText(bulletPoints[i], promoCanvas.width / 2, featureBgY + 25 + i * 25);
+      }
+      
+      promoCtx.textAlign = 'start';
+    }
     
     // Download function
-    function downloadIcon(size) {
+    function downloadIcon(size, filename = null) {
       drawIcon(size);
       const link = document.createElement('a');
-      link.download = `icon${size}.png`;
+      link.download = filename || `icon${size}.png`;
       link.href = canvas.toDataURL();
       link.click();
+    }
+    
+    // Download store icon function
+    function downloadStoreIcon() {
+      // Temporarily set to store icon type
+      const originalType = document.querySelector('input[name="iconType"]:checked').value;
+      document.querySelector('input[value="store"]').checked = true;
+      
+      // Download with store icon
+      downloadIcon(128, 'store-icon-128x128.png');
+      
+      // Restore original type
+      document.querySelector(`input[value="${originalType}"]`).checked = true;
+    }
+    
+    // Download promotional image function
+    function downloadPromotionalImage() {
+      const link = document.createElement('a');
+      link.download = 'promotional.png';
+      link.href = promoCanvas.toDataURL();
+      link.click();
+    }
+    
+    // Update canvas when icon type changes
+    function updateIconPreview() {
+      drawIcon(128);
     }
     
     // Bind button events
@@ -86,6 +451,13 @@
     document.getElementById('download32').addEventListener('click', () => downloadIcon(32));
     document.getElementById('download48').addEventListener('click', () => downloadIcon(48));
     document.getElementById('download128').addEventListener('click', () => downloadIcon(128));
+    document.getElementById('downloadStoreIcon').addEventListener('click', downloadStoreIcon);
+    document.getElementById('downloadPromo').addEventListener('click', downloadPromotionalImage);
+    
+    // Bind radio button events
+    document.querySelectorAll('input[name="iconType"]').forEach(radio => {
+      radio.addEventListener('change', updateIconPreview);
+    });
   </script>
 </body>
 </html>
