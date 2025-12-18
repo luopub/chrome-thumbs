@@ -80,4 +80,3 @@ if %errorlevel% neq 0 (
 echo All operations completed successfully!
 echo Gitee: https://gitee.com/luopub/%repo_name%
 echo GitHub: https://github.com/luopub/%repo_name%
-pause
