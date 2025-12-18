@@ -70,9 +70,29 @@
     
     .controls {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 10px;
       padding: 5px 0;
+    }
+    
+    .search-container {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #4285f4;
+      box-shadow: 0 0 3px rgba(66, 133, 244, 0.3);
     }
     
     .toggle-button {
@@ -110,6 +130,9 @@
 <body>
   <h1>标签页缩略图</h1>
   <div class="controls">
+    <div class="search-container">
+      <input type="text" id="search-input" class="search-input" placeholder="搜索标签页标题或URL...">
+    </div>
     <button id="sort-toggle" class="toggle-button">不排序</button>
   </div>
   <div id="loading" class="loading">加载中...</div>

@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const tabsContainer = document.getElementById('tabs-container');
   const loading = document.getElementById('loading');
   const sortToggle = document.getElementById('sort-toggle');
+  const searchInput = document.getElementById('search-input');
+  let allTabs = []; // 存储所有标签页数据
   
   // 从存储中获取排序状态，默认为 false（不排序）
   chrome.storage.sync.get(['sortTabs'], function(result) {
@@ -23,6 +25,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
+  // 搜索框输入事件
+  searchInput.addEventListener('input', function() {
+    filterTabs();
+  });
+  
+  // 过滤标签页
+  function filterTabs() {
+    const searchQuery = searchInput.value.toLowerCase().trim();
+    
+    if (searchQuery === '') {
+      // 如果搜索框为空，显示所有标签页
+      renderTabs(allTabs);
+      return;
+    }
+    
+    // 过滤标签页
+    const filteredTabs = allTabs.filter(tab => {
+      return tab.title.toLowerCase().includes(searchQuery) || 
+             tab.url.toLowerCase().includes(searchQuery);
+    });
+    
+    renderTabs(filteredTabs);
+  }
+  
   // 更新排序按钮的显示状态
   function updateSortButton(isSorting) {
     if (isSorting) {
@@ -40,61 +66,83 @@ document.addEventListener('DOMContentLoaded', function() {
     loading.style.display = 'block';
     tabsContainer.style.display = 'none';
     
+    // 获取所有标签页
+    chrome.tabs.query({}, function(tabs) {
+      loading.style.display = 'none';
+      tabsContainer.style.display = 'grid';
+      
+      if (tabs.length === 0) {
+        tabsContainer.innerHTML = '<div class="loading">没有打开的标签页</div>';
+        return;
+      }
+      
+      // 如果需要排序，按 URL 排序
+      allTabs = shouldSort ? [...tabs].sort((a, b) => {
+        return a.url.localeCompare(b.url);
+      }) : tabs;
+      
+      // 如果搜索框有内容，应用过滤
+      const searchQuery = searchInput.value.toLowerCase().trim();
+      if (searchQuery !== '') {
+        const filteredTabs = allTabs.filter(tab => {
+          return tab.title.toLowerCase().includes(searchQuery) || 
+                 tab.url.toLowerCase().includes(searchQuery);
+        });
+        renderTabs(filteredTabs);
+      } else {
+        renderTabs(allTabs);
+      }
+    });
+  }
+  
+  // 渲染标签页
+  function renderTabs(tabs) {
+    tabsContainer.innerHTML = '';
+    
+    if (tabs.length === 0) {
+      tabsContainer.innerHTML = '<div class="loading">没有找到匹配的标签页</div>';
+      return;
+    }
+    
     // 获取当前活动标签页ID
     chrome.tabs.query({active: true, currentWindow: true}, function(activeTabs) {
       const activeTabId = activeTabs.length > 0 ? activeTabs[0].id : -1;
       
-      // 获取所有标签页
-      chrome.tabs.query({}, function(tabs) {
-        loading.style.display = 'none';
-        tabsContainer.style.display = 'grid';
-        
-        if (tabs.length === 0) {
-          tabsContainer.innerHTML = '<div class="loading">没有打开的标签页</div>';
-          return;
+      // 为每个标签页创建缩略图元素
+      tabs.forEach(tab => {
+        const tabItem = document.createElement('div');
+        tabItem.className = 'tab-item';
+        if (tab.id === activeTabId) {
+          tabItem.classList.add('active');
         }
         
-        // 如果需要排序，按 URL 排序
-        let sortedTabs = shouldSort ? [...tabs].sort((a, b) => {
-          return a.url.localeCompare(b.url);
-        }) : tabs;
+        const thumbnail = document.createElement('div');
+        thumbnail.className = 'tab-thumbnail';
         
-        // 为每个标签页创建缩略图元素
-        sortedTabs.forEach(tab => {
-          const tabItem = document.createElement('div');
-          tabItem.className = 'tab-item';
-          if (tab.id === activeTabId) {
-            tabItem.classList.add('active');
-          }
-          
-          const thumbnail = document.createElement('div');
-          thumbnail.className = 'tab-thumbnail';
-          
-          const title = document.createElement('div');
-          title.className = 'tab-title';
-          title.textContent = tab.title || '无标题';
-          title.title = tab.title || '无标题';
-          
-          // 创建缩略图显示区域
-          thumbnail.innerHTML = `
-            <img src="${tab.favIconUrl || ''}" style="width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none';">
-            <div style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; color:#666; font-size:10px; text-align:center; padding:5px; box-sizing:border-box;">
-              ${tab.title || '无标题'}
-            </div>
-          `;
-          
-          tabItem.appendChild(thumbnail);
-          tabItem.appendChild(title);
-          
-          // 点击切换到对应标签页
-          tabItem.addEventListener('click', function() {
-            chrome.tabs.update(tab.id, {active: true});
-            // 可以选择关闭弹窗
-            window.close();
-          });
-          
-          tabsContainer.appendChild(tabItem);
+        const title = document.createElement('div');
+        title.className = 'tab-title';
+        title.textContent = tab.title || '无标题';
+        title.title = tab.title || '无标题';
+        
+        // 创建缩略图显示区域
+        thumbnail.innerHTML = `
+          <img src="${tab.favIconUrl || ''}" style="width:32px;height:32px;object-fit:contain;" onerror="this.style.display='none';">
+          <div style="display:flex; width:100%; height:100%; align-items:center; justify-content:center; color:#666; font-size:10px; text-align:center; padding:5px; box-sizing:border-box;">
+            ${tab.title || '无标题'}
+          </div>
+        `;
+        
+        tabItem.appendChild(thumbnail);
+        tabItem.appendChild(title);
+        
+        // 点击切换到对应标签页
+        tabItem.addEventListener('click', function() {
+          chrome.tabs.update(tab.id, {active: true});
+          // 可以选择关闭弹窗
+          window.close();
         });
+        
+        tabsContainer.appendChild(tabItem);
       });
     });
   }
