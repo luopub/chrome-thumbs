@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // 设置本地化文本
+  document.getElementById('title').textContent = chrome.i18n.getMessage('extensionName');
+  document.getElementById('search-input').placeholder = chrome.i18n.getMessage('searchPlaceholder');
+  document.getElementById('loading').textContent = chrome.i18n.getMessage('loading');
+  
   const tabsContainer = document.getElementById('tabs-container');
   const loading = document.getElementById('loading');
   const sortToggle = document.getElementById('sort-toggle');
@@ -80,10 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Update sort button display state
   function updateSortButton(isSorting) {
     if (isSorting) {
-      sortToggle.textContent = 'Sorted';
+      sortToggle.textContent = chrome.i18n.getMessage("sorted");
       sortToggle.classList.remove('inactive');
     } else {
-      sortToggle.textContent = 'Unsorted';
+      sortToggle.textContent = chrome.i18n.getMessage("unsorted");
       sortToggle.classList.add('inactive');
     }
   }
@@ -100,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
       tabsContainer.style.display = 'grid';
       
       if (tabs.length === 0) {
-        tabsContainer.innerHTML = '<div class="loading">No open tabs</div>';
+        tabsContainer.innerHTML = `<div class="loading">${chrome.i18n.getMessage("noTabs")}</div>`;
         return;
       }
       
@@ -128,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tabsContainer.innerHTML = '';
     
     if (tabs.length === 0) {
-      tabsContainer.innerHTML = '<div class="loading">No matching tabs found</div>';
+      tabsContainer.innerHTML = `<div class="loading">${chrome.i18n.getMessage("noMatchingTabs")}</div>`;
       return;
     }
     
@@ -150,8 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const title = document.createElement('div');
         title.className = 'tab-title';
-        title.textContent = tab.title || 'No title';
-        title.title = tab.title || 'No title';
+        title.textContent = tab.title || chrome.i18n.getMessage("noTitle");
+        title.title = tab.title || chrome.i18n.getMessage("noTitle");
         
         // Create thumbnail display area
         const img = document.createElement('img');
@@ -175,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         textDiv.style.textAlign = 'center';
         textDiv.style.padding = '5px';
         textDiv.style.boxSizing = 'border-box';
-        textDiv.textContent = tab.title || 'No title';
+        textDiv.textContent = tab.title || chrome.i18n.getMessage("noTitle");
         
         thumbnail.appendChild(img);
         thumbnail.appendChild(textDiv);
@@ -184,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const closeButton = document.createElement('div');
         closeButton.className = 'close-button';
         closeButton.innerHTML = '×';
-        closeButton.title = 'Close tab';
+        closeButton.title = chrome.i18n.getMessage("closeTab");
         
         // Click close button to close tab
         closeButton.addEventListener('click', function(e) {

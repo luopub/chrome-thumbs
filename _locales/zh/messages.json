@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "标签页缩略图",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "一个强大的Chrome扩展程序，显示所有打开标签页的视觉缩略图。通过视觉预览、搜索、排序和高效管理浏览会话，快速切换标签页。",
+    "description": "Extension description"
+  },
+  "searchPlaceholder": {
+    "message": "搜索标签页标题或URL...",
+    "description": "Placeholder text for search input"
+  },
+  "sorted": {
+    "message": "已排序",
+    "description": "Text for sorted button"
+  },
+  "unsorted": {
+    "message": "未排序",
+    "description": "Text for unsorted button"
+  },
+  "loading": {
+    "message": "加载中...",
+    "description": "Loading text"
+  },
+  "noTabs": {
+    "message": "没有打开的标签页",
+    "description": "Text when no tabs are open"
+  },
+  "noMatchingTabs": {
+    "message": "未找到匹配的标签页",
+    "description": "Text when no matching tabs found"
+  },
+  "closeTab": {
+    "message": "关闭标签页",
+    "description": "Tooltip for close button"
+  },
+  "noTitle": {
+    "message": "无标题",
+    "description": "Text when tab has no title"
+  }
+}

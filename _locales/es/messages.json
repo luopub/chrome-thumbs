@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "Miniaturas de pestañas",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Una potente extensión de Chrome que muestra miniaturas visuales de todas las pestañas abiertas. Cambia rápidamente entre pestañas con vistas previas visuales, busca, ordena y gestiona tu sesión de navegación de manera eficiente.",
+    "description": "Extension description"
+  },
+  "searchPlaceholder": {
+    "message": "Buscar título o URL de la pestaña...",
+    "description": "Placeholder text for search input"
+  },
+  "sorted": {
+    "message": "Ordenado",
+    "description": "Text for sorted button"
+  },
+  "unsorted": {
+    "message": "Sin ordenar",
+    "description": "Text for unsorted button"
+  },
+  "loading": {
+    "message": "Cargando...",
+    "description": "Loading text"
+  },
+  "noTabs": {
+    "message": "No hay pestañas abiertas",
+    "description": "Text when no tabs are open"
+  },
+  "noMatchingTabs": {
+    "message": "No se encontraron pestañas coincidentes",
+    "description": "Text when no matching tabs found"
+  },
+  "closeTab": {
+    "message": "Cerrar pestaña",
+    "description": "Tooltip for close button"
+  },
+  "noTitle": {
+    "message": "Sin título",
+    "description": "Text when tab has no title"
+  }
+}

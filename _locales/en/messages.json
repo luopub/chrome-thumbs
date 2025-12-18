@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "Tab Thumbnails",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "A powerful Chrome extension that displays visual thumbnails of all open tabs. Switch between tabs quickly with visual previews, search, sort, and manage your browsing session efficiently.",
+    "description": "Extension description"
+  },
+  "searchPlaceholder": {
+    "message": "Search tab title or URL...",
+    "description": "Placeholder text for search input"
+  },
+  "sorted": {
+    "message": "Sorted",
+    "description": "Text for sorted button"
+  },
+  "unsorted": {
+    "message": "Unsorted",
+    "description": "Text for unsorted button"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "Loading text"
+  },
+  "noTabs": {
+    "message": "No open tabs",
+    "description": "Text when no tabs are open"
+  },
+  "noMatchingTabs": {
+    "message": "No matching tabs found",
+    "description": "Text when no matching tabs found"
+  },
+  "closeTab": {
+    "message": "Close tab",
+    "description": "Tooltip for close button"
+  },
+  "noTitle": {
+    "message": "No title",
+    "description": "Text when tab has no title"
+  }
+}

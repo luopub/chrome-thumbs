@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "タブサムネイル",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "開いているすべてのタブの視覚的なサムネイルを表示する強力なChrome拡張機能。ビジュアルプレビューでタブを素早く切り替え、検索、ソート、ブラウジングセッションを効率的に管理します。",
+    "description": "Extension description"
+  },
+  "searchPlaceholder": {
+    "message": "タブのタイトルまたはURLを検索...",
+    "description": "Placeholder text for search input"
+  },
+  "sorted": {
+    "message": "ソート済み",
+    "description": "Text for sorted button"
+  },
+  "unsorted": {
+    "message": "未ソート",
+    "description": "Text for unsorted button"
+  },
+  "loading": {
+    "message": "読み込み中...",
+    "description": "Loading text"
+  },
+  "noTabs": {
+    "message": "開いているタブがありません",
+    "description": "Text when no tabs are open"
+  },
+  "noMatchingTabs": {
+    "message": "一致するタブが見つかりません",
+    "description": "Text when no matching tabs found"
+  },
+  "closeTab": {
+    "message": "タブを閉じる",
+    "description": "Tooltip for close button"
+  },
+  "noTitle": {
+    "message": "タイトルなし",
+    "description": "Text when tab has no title"
+  }
+}

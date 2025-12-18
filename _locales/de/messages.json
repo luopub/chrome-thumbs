@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "Tab-Vorschaubilder",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Eine leistungsstarke Chrome-Erweiterung, die visuelle Miniaturansichten aller geöffneten Tabs anzeigt. Wechseln Sie schnell zwischen Tabs mit visuellen Vorschauen, suchen, sortieren und verwalten Sie Ihre Browsing-Sitzung effizient.",
+    "description": "Extension description"
+  },
+  "searchPlaceholder": {
+    "message": "Tab-Titel oder URL suchen...",
+    "description": "Placeholder text for search input"
+  },
+  "sorted": {
+    "message": "Sortiert",
+    "description": "Text for sorted button"
+  },
+  "unsorted": {
+    "message": "Unsortiert",
+    "description": "Text for unsorted button"
+  },
+  "loading": {
+    "message": "Laden...",
+    "description": "Loading text"
+  },
+  "noTabs": {
+    "message": "Keine geöffneten Tabs",
+    "description": "Text when no tabs are open"
+  },
+  "noMatchingTabs": {
+    "message": "Keine passenden Tabs gefunden",
+    "description": "Text when no matching tabs found"
+  },
+  "closeTab": {
+    "message": "Tab schließen",
+    "description": "Tooltip for close button"
+  },
+  "noTitle": {
+    "message": "Kein Titel",
+    "description": "Text when tab has no title"
+  }
+}

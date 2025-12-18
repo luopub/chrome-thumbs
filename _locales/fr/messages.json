@@ -1,0 +1,42 @@
+{
+  "extensionName": {
+    "message": "Miniatures d'onglets",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Une extension Chrome puissante qui affiche des vignettes visuelles de tous les onglets ouverts. Basculez rapidement entre les onglets avec des aperçus visuels, recherchez, triez et gérez efficacement votre session de navigation.",
+    "description": "Extension description"
+  },
+  "searchPlaceholder": {
+    "message": "Rechercher le titre ou l'URL de l'onglet...",
+    "description": "Placeholder text for search input"
+  },
+  "sorted": {
+    "message": "Trié",
+    "description": "Text for sorted button"
+  },
+  "unsorted": {
+    "message": "Non trié",
+    "description": "Text for unsorted button"
+  },
+  "loading": {
+    "message": "Chargement...",
+    "description": "Loading text"
+  },
+  "noTabs": {
+    "message": "Aucun onglet ouvert",
+    "description": "Text when no tabs are open"
+  },
+  "noMatchingTabs": {
+    "message": "Aucun onglet correspondant trouvé",
+    "description": "Text when no matching tabs found"
+  },
+  "closeTab": {
+    "message": "Fermer l'onglet",
+    "description": "Tooltip for close button"
+  },
+  "noTitle": {
+    "message": "Sans titre",
+    "description": "Text when tab has no title"
+  }
+}
