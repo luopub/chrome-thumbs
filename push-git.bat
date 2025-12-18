@@ -37,7 +37,7 @@ if %errorlevel% neq 0 (
 
 :: Push to Gitee
 echo Pushing to Gitee...
-git push gitee master --all --force
+git push gitee master --force
 
 :: If push fails, repository might not exist, try to create
 if %errorlevel% neq 0 (
@@ -50,7 +50,7 @@ if %errorlevel% neq 0 (
 
 :: Push to GitHub
 echo Pushing to GitHub...
-git push github master --all --force
+git push github master --force
 
 :: If push fails, repository might not exist, try to create
 if %errorlevel% neq 0 (
