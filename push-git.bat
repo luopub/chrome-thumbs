@@ -42,8 +42,16 @@ git push gitee master --force
 :: If push fails, repository might not exist, try to create
 if %errorlevel% neq 0 (
     echo Failed to push to Gitee, repository might not exist.
-    echo Please manually create repository on Gitee: https://gitee.com/luopub/%repo_name%
-    echo Then run this script again.
+    echo.
+    echo To create the repository:
+    echo 1. Visit: https://gitee.com/projects/new
+    echo 2. Repository Path: %repo_name%
+    echo 3. Choose Public or Private
+    echo 4. Click "Create"
+    echo 5. Run this script again
+    echo.
+    echo Opening Gitee create page...
+    start https://gitee.com/projects/new
     pause
     exit /b 1
 )
@@ -55,8 +63,16 @@ git push github master --force
 :: If push fails, repository might not exist, try to create
 if %errorlevel% neq 0 (
     echo Failed to push to GitHub, repository might not exist.
-    echo Please manually create repository on GitHub: https://github.com/luopub/%repo_name%
-    echo Then run this script again.
+    echo.
+    echo To create the repository:
+    echo 1. Visit: https://github.com/new
+    echo 2. Repository name: %repo_name%
+    echo 3. Choose Public or Private
+    echo 4. Click "Create repository"
+    echo 5. Run this script again
+    echo.
+    echo Opening GitHub create page...
+    start https://github.com/new
     pause
     exit /b 1
 )
